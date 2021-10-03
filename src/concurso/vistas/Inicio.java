@@ -32,6 +32,7 @@ public class Inicio extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         btnStart = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,6 +65,9 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        lblMessage.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblMessage.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,7 +86,10 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(187, 187, 187)
                         .addComponent(name)
                         .addGap(88, 88, 88)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(195, 195, 195)
+                        .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,7 +97,9 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(name)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -151,6 +160,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnSalir;
     public javax.swing.JButton btnStart;
     private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel lblMessage;
     private javax.swing.JLabel name;
     public javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables

@@ -8,7 +8,10 @@ import concurso.vistas.Inicio;
 import concurso.vistas.InicioGame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 
@@ -45,23 +48,29 @@ public class ContinuarJuego implements ActionListener{
         if(inicioGame.grupoRespuestas.getSelection() == null){
             //
         }
-        IniciarJuego iniciar = new IniciarJuego(jugador, inicio, inicioGame);
-        String res = "";
-        res = getSelectedButtonText(inicioGame.grupoRespuestas);
-        String res2 = "";
-        res2 = respuesta.obtenerRespuesta(this.id);
-        
-        if(res.equals(res2)){
-            int puntos = jugador.getPuntos() + 100;
-            int nivel = jugador.getNivel() + 1;
-            jugador.guardarJugador(jugador.getId(), jugador.getNombre(), nivel, puntos);
-            iniciar.Juego(contador+1);
-            
-        }else{
-            System.out.println(res+res2);
-            jugador.guardarJugador(jugador.getId(), jugador.getNombre(), 0, 0);
+        else{
+            IniciarJuego iniciar = new IniciarJuego(jugador, inicio, inicioGame);
+            String res = getSelectedButtonText(inicioGame.grupoRespuestas);
+            String res2 = respuesta.obtenerRespuesta(this.id);
+
+            if(res.equals(res2)){
+                jugador.setNivel(jugador.getNivel()+1);
+                jugador.setPuntos(jugador.getPuntos()+100);
+                jugador.guardarJugador();
+                try {
+                    iniciar.Juego(contador+1);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ContinuarJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }else{
+                jugador.setNivel(0);
+                jugador.setPuntos(0);
+                jugador.guardarJugador();
+                iniciar.FinalJuegoLose(jugador);
+            }
+            Limpiar(inicioGame.grupoRespuestas);
         }
-        Limpiar(inicioGame.grupoRespuestas);
     }
     
     public String getSelectedButtonText(ButtonGroup buttonGroup) {

@@ -37,45 +37,56 @@ public class IniciarJuego implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Juego(contador);
+        try {
+            Juego(contador);
+        } catch (SQLException ex) {
+            Logger.getLogger(IniciarJuego.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void Juego(int contador){
+    public void Juego(int contador) throws SQLException{
         if(contador <= 5){
-            System.out.println(contador);
-            jugador.obtenerJugador(String.valueOf(inicio.txtName.getText()));
-        
-            inicioGame.namePlayer.setText(jugador.getNombre());
-            inicioGame.scorePlayer.setText(String.valueOf(jugador.getPuntos()));
-            inicioGame.nivelPlayer.setText(String.valueOf(jugador.getNivel()));
-            pregunta.obtenerPregunta(contador);
-            inicioGame.lblPregunta.setText(contador + ".  " +pregunta.getPregunta());
-            ResultSet datos = respuesta.obtenerRespuestas(pregunta.getId());
-            String[] res = new String[4];
-            int id = 0;
-            int i = 1;
-            try {
-                while(datos.next()){
-                    datos.absolute(i);
-                    res[i-1] = datos.getString("respuesta");
-                    if(datos.getBoolean("correcta")){
-                        id = datos.getInt("id");
-                    }
-                    i++;
-                }
-                datos.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(IniciarJuego.class.getName()).log(Level.SEVERE, null, ex);
+            if(String.valueOf(inicio.txtName.getText()).equals(""))
+            {
+                inicio.lblMessage.setText("Debes ingresar un nombre para continuar");
             }
-            inicioGame.opcion1.setText(res[0]);
-            inicioGame.opcion2.setText(res[1]);
-            inicioGame.opcion3.setText(res[2]);
-            inicioGame.opcion4.setText(res[3]);
+            else{
+                jugador.obtenerJugador(String.valueOf(inicio.txtName.getText()));
 
-            ContinuarJuego continuar = new ContinuarJuego(jugador, inicio, respuesta, inicioGame, pregunta, id, contador);
+                inicioGame.namePlayer.setText(jugador.getNombre());
+                inicioGame.scorePlayer.setText(String.valueOf(jugador.getPuntos()));
+                inicioGame.nivelPlayer.setText(String.valueOf(jugador.getNivel()));
+                pregunta.obtenerPregunta(contador);
+                inicioGame.lblPregunta.setText(contador + ".  " +pregunta.getPregunta());
+                ResultSet datos = respuesta.obtenerRespuestas(pregunta.getId());
+                String[] res = new String[4];
+                int id = 0;
+                int i = 1;
+                try {
+                    while(datos.next()){
+                        datos.absolute(i);
+                        res[i-1] = datos.getString("respuesta");
+                        if(datos.getBoolean("correcta")){
+                            id = datos.getInt("id");
+                        }
+                        i++;
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(IniciarJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    datos.close();
+                }
+                inicioGame.opcion1.setText(res[0]);
+                inicioGame.opcion2.setText(res[1]);
+                inicioGame.opcion3.setText(res[2]);
+                inicioGame.opcion4.setText(res[3]);
 
-            inicio.setVisible(false);
-            inicioGame.setVisible(true);
+                ContinuarJuego continuar = new ContinuarJuego(jugador, inicio, respuesta, inicioGame, pregunta, id, contador);
+
+                inicio.setVisible(false);
+                inicioGame.setVisible(true);
+            }
+            
         }else{
             FinalJuegoWin(jugador);
         }

@@ -116,18 +116,19 @@ public class Jugador extends Conexion{
         }
     }
     
-    public int guardarJugador(int id, String nombre, int nivel, int puntos) {
+    public int guardarJugador() {
         Connection conectar = ConectarDB();
         
         String consulta = "UPDATE jugador SET nombre = ?, nivel = ?, puntos = ? WHERE id = ?";
         
         try {
             sentencia=conectar.prepareStatement(consulta);
-            sentencia.setString(1, nombre);
-            sentencia.setInt(2, nivel);
-            sentencia.setInt(3, puntos);
-            sentencia.setInt(4, id);
+            sentencia.setString(1, this.nombre);
+            sentencia.setInt(2, this.nivel);
+            sentencia.setInt(3, this.puntos);
+            sentencia.setInt(4, this.id);
             int request=sentencia.executeUpdate();
+            obtenerJugador(this.nombre);
             return request;
         }catch(Exception e) {
             System.out.println("Error: "+e);
