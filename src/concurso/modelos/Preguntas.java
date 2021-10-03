@@ -8,6 +8,7 @@ package concurso.modelos;
 import com.mysql.jdbc.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**
@@ -53,7 +54,7 @@ public class Preguntas extends Conexion{
         this.idCategoria = idCategoria;
     }
     
-    public int obtenerPregunta(int idCategoria) {
+    public int obtenerPregunta(int idCategoria) throws SQLException {
         Connection conectar = ConectarDB();
         ResultSet datos = null;
         
@@ -69,12 +70,14 @@ public class Preguntas extends Conexion{
                 this.id = datos.getInt("id");
                 this.idCategoria = datos.getInt("IDCategoria");
                 this.pregunta = datos.getString("pregunta");
-                datos.close();
+                datos.afterLast();
             }
             return 1;
         }catch(Exception e) {
             System.out.println("Error: "+e);
             return 0;
+        }finally{
+            datos.close();
         }
     }
     

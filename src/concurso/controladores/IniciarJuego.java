@@ -7,6 +7,7 @@ import concurso.modelos.Respuestas;
 import concurso.vistas.FinalGame;
 import concurso.vistas.Inicio;
 import concurso.vistas.InicioGame;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -76,15 +77,30 @@ public class IniciarJuego implements ActionListener{
             inicio.setVisible(false);
             inicioGame.setVisible(true);
         }else{
-            FinalJuego(jugador);
+            FinalJuegoWin(jugador);
         }
         
     }
     
-    public void FinalJuego(Jugador jugador){
+    public void FinalJuegoWin(Jugador jugador){
         inicioGame.setVisible(false);
         FinalGame finalGame = new FinalGame();
         finalGame.setVisible(true);
+        finalGame.lblWinOrLose.setText("Felicitaciones haz ganado el juego.");
+        finalGame.lblWinOrLose.setForeground(Color.GREEN);
+        finalGame.datoNombre.setText(jugador.getNombre());
+        finalGame.datoNivel.setText(String.valueOf(jugador.getNivel()));
+        finalGame.datoPuntos.setText(String.valueOf(jugador.getPuntos()));
+    }
+    
+    public void FinalJuegoLose(Jugador jugador){
+        inicioGame.setVisible(false);
+        FinalGame finalGame = new FinalGame();
+        finalGame.setVisible(true);
+        finalGame.lblWinOrLose.setText("Lamentablemente haz perdido el juego.");
+        finalGame.lblWinOrLose.setForeground(Color.RED);
+        jugador.setNivel(0);
+        jugador.setPuntos(0);
         finalGame.datoNombre.setText(jugador.getNombre());
         finalGame.datoNivel.setText(String.valueOf(jugador.getNivel()));
         finalGame.datoPuntos.setText(String.valueOf(jugador.getPuntos()));

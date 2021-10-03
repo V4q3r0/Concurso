@@ -35,11 +35,15 @@ public class ContinuarJuego implements ActionListener{
         this.respuesta = respuesta;
         inicioGame.btnEnviarRespuesta.addActionListener(this);
     }
+    
+    public void Limpiar(ButtonGroup button){
+        button.clearSelection();
+    }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if(inicioGame.grupoRespuestas.getSelection() == null){
-            inicioGame.lblMessage.setText("Debes seleccionar una de las opciones.");
+            //
         }
         IniciarJuego iniciar = new IniciarJuego(jugador, inicio, inicioGame);
         String res = "";
@@ -56,9 +60,8 @@ public class ContinuarJuego implements ActionListener{
         }else{
             System.out.println(res+res2);
             jugador.guardarJugador(jugador.getId(), jugador.getNombre(), 0, 0);
-            iniciar.FinalJuego(jugador);
         }
-        
+        Limpiar(inicioGame.grupoRespuestas);
     }
     
     public String getSelectedButtonText(ButtonGroup buttonGroup) {

@@ -101,7 +101,7 @@ public class Jugador extends Conexion{
             int request=sentencia.executeUpdate();
             if(request > 0)
             {
-                this.nombre=nombre;
+                obtenerJugador(nombre);
             }
             return request;
         }catch(Exception e) {
